@@ -9,19 +9,24 @@ Original file is located at
 ## Imports
 """
 
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from joblib import dump, load
+import scipy as sp
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("Advertising.csv")
+df = pd.read_csv(".\data\Advertising.csv")
 
 df.head()
 
 """### Multiple Features (N-Dimensional)"""
 
 # Relationships between features
-sns.pairplot(df,diag_kind='kde')
+sns.pairplot(df, diag_kind='kde')
 
 """## Introducing SciKit Learn
 
@@ -30,7 +35,7 @@ We will work a lot with the scitkit learn library, so get comfortable with its m
 ---
 """
 
-X = df.drop('sales',axis=1)
+X = df.drop('sales', axis=1)
 y = df['sales']
 
 """## Train | Test Split
@@ -38,9 +43,9 @@ y = df['sales']
 Make sure you have watched the Machine Learning Overview videos on Supervised Learning to understand why we do this step
 """
 
-from sklearn.model_selection import train_test_split
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=101)
 
 X_train
 
@@ -55,13 +60,12 @@ y_test
 #### Import a model class from a model family
 """
 
-from sklearn.linear_model import LinearRegression
 
 """#### Create an instance of the model with parameters"""
 
 model = LinearRegression()
 
-model.fit(X_train,y_train)
+model.fit(X_train, y_train)
 
 # X_test
 
@@ -72,10 +76,9 @@ test_predictions = model.predict(X_test)
 
 test_predictions
 
-from sklearn.metrics import mean_absolute_error,mean_squared_error
 
-MAE = mean_absolute_error(y_test,test_predictions)
-MSE = mean_squared_error(y_test,test_predictions)
+MAE = mean_absolute_error(y_test, test_predictions)
+MSE = mean_squared_error(y_test, test_predictions)
 RMSE = np.sqrt(MSE)
 
 MAE
@@ -92,32 +95,32 @@ quartet = pd.read_csv('anscombes_quartet1.csv')
 quartet['pred_y'] = 3 + 0.5 * quartet['x']
 quartet['residual'] = quartet['y'] - quartet['pred_y']
 
-sns.scatterplot(data=quartet,x='x',y='y')
-sns.lineplot(data=quartet,x='x',y='pred_y',color='red')
-plt.vlines(quartet['x'],quartet['y'],quartet['y']-quartet['residual'])
+sns.scatterplot(data=quartet, x='x', y='y')
+sns.lineplot(data=quartet, x='x', y='pred_y', color='red')
+plt.vlines(quartet['x'], quartet['y'], quartet['y']-quartet['residual'])
 
 sns.kdeplot(quartet['residual'])
 
-sns.scatterplot(data=quartet,x='y',y='residual')
+sns.scatterplot(data=quartet, x='y', y='residual')
 plt.axhline(y=0, color='r', linestyle='--')
 
 """---"""
 
 quartet = pd.read_csv('anscombes_quartet2.csv')
 
-quartet.columns = ['x','y']
+quartet.columns = ['x', 'y']
 
 # y = 3.00 + 0.500x
 quartet['pred_y'] = 3 + 0.5 * quartet['x']
 quartet['residual'] = quartet['y'] - quartet['pred_y']
 
-sns.scatterplot(data=quartet,x='x',y='y')
-sns.lineplot(data=quartet,x='x',y='pred_y',color='red')
-plt.vlines(quartet['x'],quartet['y'],quartet['y']-quartet['residual'])
+sns.scatterplot(data=quartet, x='x', y='y')
+sns.lineplot(data=quartet, x='x', y='pred_y', color='red')
+plt.vlines(quartet['x'], quartet['y'], quartet['y']-quartet['residual'])
 
 sns.kdeplot(quartet['residual'])
 
-sns.scatterplot(data=quartet,x='y',y='residual')
+sns.scatterplot(data=quartet, x='y', y='residual')
 plt.axhline(y=0, color='r', linestyle='--')
 
 quartet = pd.read_csv('anscombes_quartet4.csv')
@@ -129,13 +132,13 @@ quartet['pred_y'] = 3 + 0.5 * quartet['x']
 
 quartet['residual'] = quartet['y'] - quartet['pred_y']
 
-sns.scatterplot(data=quartet,x='x',y='y')
-sns.lineplot(data=quartet,x='x',y='pred_y',color='red')
-plt.vlines(quartet['x'],quartet['y'],quartet['y']-quartet['residual'])
+sns.scatterplot(data=quartet, x='x', y='y')
+sns.lineplot(data=quartet, x='x', y='pred_y', color='red')
+plt.vlines(quartet['x'], quartet['y'], quartet['y']-quartet['residual'])
 
 sns.kdeplot(quartet['residual'])
 
-sns.scatterplot(data=quartet,x='y',y='residual')
+sns.scatterplot(data=quartet, x='y', y='residual')
 plt.axhline(y=0, color='r', linestyle='--')
 
 """### Plotting Residuals
@@ -150,16 +153,15 @@ test_predictions = model.predict(X_test)
 # If our model was perfect, these would all be zeros
 test_res = y_test - test_predictions
 
-sns.scatterplot(x=y_test,y=test_res)
+sns.scatterplot(x=y_test, y=test_res)
 plt.axhline(y=0, color='r', linestyle='--')
 
 len(test_res)
 
-sns.displot(test_res,bins=25,kde=True)
+sns.displot(test_res, bins=25, kde=True)
 
 """Still unsure if normality is a reasonable approximation? We can check against the [normal probability plot.](https://en.wikipedia.org/wiki/Normal_probability_plot)"""
 
-import scipy as sp
 
 """-----------
 
@@ -170,27 +172,27 @@ import scipy as sp
 
 final_model = LinearRegression()
 
-final_model.fit(X,y)
+final_model.fit(X, y)
 
 y_hat = final_model.predict(X)
 
-fig,axes = plt.subplots(nrows=1,ncols=3,figsize=(16,6))
+fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(16, 6))
 
-axes[0].plot(df['TV'],df['sales'],'o')
-axes[0].plot(df['TV'],y_hat,'o',color='red')
+axes[0].plot(df['TV'], df['sales'], 'o')
+axes[0].plot(df['TV'], y_hat, 'o', color='red')
 axes[0].set_ylabel("Sales")
 axes[0].set_title("TV Spend")
 
-axes[1].plot(df['radio'],df['sales'],'o')
-axes[1].plot(df['radio'],y_hat,'o',color='red')
+axes[1].plot(df['radio'], df['sales'], 'o')
+axes[1].plot(df['radio'], y_hat, 'o', color='red')
 axes[1].set_title("Radio Spend")
 axes[1].set_ylabel("Sales")
 
-axes[2].plot(df['newspaper'],df['sales'],'o')
-axes[2].plot(df['radio'],y_hat,'o',color='red')
-axes[2].set_title("Newspaper Spend");
+axes[2].plot(df['newspaper'], df['sales'], 'o')
+axes[2].plot(df['radio'], y_hat, 'o', color='red')
+axes[2].set_title("Newspaper Spend")
 axes[2].set_ylabel("Sales")
-plt.tight_layout();
+plt.tight_layout()
 
 """### Residuals
 
@@ -199,19 +201,19 @@ Should be normally distributed as discussed in the video.
 
 residuals = y_hat - y
 
-sns.scatterplot(x=y,y=residuals)
+sns.scatterplot(x=y, y=residuals)
 plt.axhline(y=0, color='r', linestyle='--')
 
 """### Coefficients"""
 
 final_model.coef_
 
-coeff_df = pd.DataFrame(final_model.coef_,X.columns,columns=['Coefficient'])
+coeff_df = pd.DataFrame(final_model.coef_, X.columns, columns=['Coefficient'])
 coeff_df
 
 df.corr()
 
-campaign = [[149,22,12]]
+campaign = [[149, 22, 12]]
 
 final_model.predict(campaign)
 
@@ -220,7 +222,6 @@ final_model.predict(campaign)
 Saving and Loading a Model
 """
 
-from joblib import dump, load
 
 dump(final_model, 'sales_model.joblib')
 
