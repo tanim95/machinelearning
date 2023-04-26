@@ -30,7 +30,7 @@ X = df.drop('sales', axis=1)
 
 y = df['sales']
 
-"""## Polynomial Regression"""
+# Polynomial Regression
 
 polynomial_converter = PolynomialFeatures(degree=2, include_bias=False)
 poly_features = polynomial_converter.fit_transform(X)
@@ -85,11 +85,6 @@ MAE = mean_absolute_error(y_test, test_predictions)
 MSE = mean_squared_error(y_test, test_predictions)
 RMSE = np.sqrt(MSE)
 
-MAE
-
-MSE
-
-RMSE
 
 df['sales'].mean()
 
@@ -150,7 +145,3 @@ campaign_poly = loaded_poly.transform(campaign)
 campaign_poly
 
 final_model.predict(campaign_poly)
-
-"""-----
----
-"""

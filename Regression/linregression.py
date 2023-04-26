@@ -9,7 +9,7 @@ Original file is located at
 ## Imports
 """
 
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from joblib import dump, load
 import scipy as sp
 from sklearn.linear_model import LinearRegression
@@ -28,40 +28,14 @@ df.head()
 # Relationships between features
 sns.pairplot(df, diag_kind='kde')
 
-"""## Introducing SciKit Learn
-
-We will work a lot with the scitkit learn library, so get comfortable with its model estimator syntax, as well as exploring its incredibly useful documentation!
-
----
-"""
 
 X = df.drop('sales', axis=1)
 y = df['sales']
-
-"""## Train | Test Split
-
-Make sure you have watched the Machine Learning Overview videos on Supervised Learning to understand why we do this step
-"""
 
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=101)
 
-X_train
-
-y_train
-
-X_test
-
-y_test
-
-"""## Creating a Model (Estimator)
-
-#### Import a model class from a model family
-"""
-
-
-"""#### Create an instance of the model with parameters"""
 
 model = LinearRegression()
 
@@ -80,16 +54,11 @@ test_predictions
 MAE = mean_absolute_error(y_test, test_predictions)
 MSE = mean_squared_error(y_test, test_predictions)
 RMSE = np.sqrt(MSE)
-
-MAE
-
-MSE
-
-RMSE
-
+# print(RMSE)
+# print(r2_score(y_test,test_predictions))
 df['sales'].mean()
 
-quartet = pd.read_csv('anscombes_quartet1.csv')
+quartet = pd.read_csv('./data/anscombes_quartet1.csv')
 
 # y = 3.00 + 0.500x
 quartet['pred_y'] = 3 + 0.5 * quartet['x']
@@ -98,15 +67,15 @@ quartet['residual'] = quartet['y'] - quartet['pred_y']
 sns.scatterplot(data=quartet, x='x', y='y')
 sns.lineplot(data=quartet, x='x', y='pred_y', color='red')
 plt.vlines(quartet['x'], quartet['y'], quartet['y']-quartet['residual'])
-
+plt.show()
 sns.kdeplot(quartet['residual'])
-
+plt.show()
 sns.scatterplot(data=quartet, x='y', y='residual')
 plt.axhline(y=0, color='r', linestyle='--')
-
+plt.show()
 """---"""
 
-quartet = pd.read_csv('anscombes_quartet2.csv')
+quartet = pd.read_csv('./data/anscombes_quartet2.csv')
 
 quartet.columns = ['x', 'y']
 
@@ -123,7 +92,7 @@ sns.kdeplot(quartet['residual'])
 sns.scatterplot(data=quartet, x='y', y='residual')
 plt.axhline(y=0, color='r', linestyle='--')
 
-quartet = pd.read_csv('anscombes_quartet4.csv')
+quartet = pd.read_csv('./data/anscombes_quartet4.csv')
 
 quartet
 
@@ -141,16 +110,10 @@ sns.kdeplot(quartet['residual'])
 sns.scatterplot(data=quartet, x='y', y='residual')
 plt.axhline(y=0, color='r', linestyle='--')
 
-"""### Plotting Residuals
+# Plotting Residuals
 
-It's also important to plot out residuals and check for normal distribution, this helps us understand if Linear Regression was a valid model choice.
-"""
-
-# Predictions on training and testing sets
-# Doing residuals separately will alert us to any issue with the split call
 test_predictions = model.predict(X_test)
 
-# If our model was perfect, these would all be zeros
 test_res = y_test - test_predictions
 
 sns.scatterplot(x=y_test, y=test_res)
@@ -160,15 +123,9 @@ len(test_res)
 
 sns.displot(test_res, bins=25, kde=True)
 
-"""Still unsure if normality is a reasonable approximation? We can check against the [normal probability plot.](https://en.wikipedia.org/wiki/Normal_probability_plot)"""
 
+# Retraining Model on Full Data
 
-"""-----------
-
-## Retraining Model on Full Data
-
-
-"""
 
 final_model = LinearRegression()
 
@@ -194,10 +151,6 @@ axes[2].set_title("Newspaper Spend")
 axes[2].set_ylabel("Sales")
 plt.tight_layout()
 
-"""### Residuals
-
-Should be normally distributed as discussed in the video.
-"""
 
 residuals = y_hat - y
 
