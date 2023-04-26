@@ -100,14 +100,15 @@ print(MAE, MSE, RMSE)
 
 """Testing which degree of polynomial fits best in our model"""
 
-# for i in range(1,10):
-#   poly_converter = PolynomialFeatures(degree = i, include_bias= False)
-#   poly_feature =  poly_converter.fit_transform(X)
-#   X_train,X_test,y_train,y_test = train_test_split(poly_feature,y,test_size= 0.30,random_state = 42)
-#   model = LinearRegression()
-#   model.fit(X_train,y_train)
-#   y_pred_train = model.predict(X_train)
-#   y_pred_test = model.predict(X_test)
+for i in range(1, 10):
+    poly_converter = PolynomialFeatures(degree=i, include_bias=False)
+    poly_feature = poly_converter.fit_transform(X)
+    X_train, X_test, y_train, y_test = train_test_split(
+        poly_feature, y, test_size=0.30, random_state=42)
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
 
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
