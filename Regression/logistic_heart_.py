@@ -7,6 +7,10 @@ Original file is located at
     https://colab.research.google.com/drive/1TducI_zch37ZAEEpB9LCuLT3NEKz-dq-
 """
 
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+from sklearn.linear_model import LogisticRegressionCV
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -44,14 +48,14 @@ University Hospital, Zurich, Switzerland: William Steinbrunn, M.D.
 University Hospital, Basel, Switzerland: Matthias Pfisterer, M.D.
 V.A. Medical Center, Long Beach and Cleveland Clinic Foundation: Robert Detrano, M.D., Ph.D.
 
-----
+
 
 **TASK: Run the cell below to read in the data.**
 """
 
-df = pd.read_csv('heart.csv')
+df = pd.read_csv('/data/heart.csv')
 
-df.head()
+print(df.head())
 
 df['target'].unique()
 
@@ -59,29 +63,27 @@ df.describe().transpose()
 
 df.info()
 
-sns.countplot(data = df,x= 'target')
+sns.countplot(data=df, x='target')
 
-plt.figure(figsize=(10,10),dpi=100)
-sns.heatmap(df.corr(),annot = True)
+plt.figure(figsize=(10, 10), dpi=100)
+sns.heatmap(df.corr(), annot=True)
 
-X = df.drop('target',axis = 1)
+X = df.drop('target', axis=1)
 y = df['target']
 
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=20, random_state=101)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=20, random_state=101)
 
-from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 
 scaled_X_train = scaler.fit_transform(X_train)
 scaled_X_test = scaler.transform(X_test)
 
-from sklearn.linear_model import LogisticRegressionCV
 
-model = LogisticRegressionCV(cv = 10, solver = 'saga', penalty = 'l1',max_iter = 500)
+model = LogisticRegressionCV(cv=10, solver='saga', penalty='l1', max_iter=500)
 
-model.fit(scaled_X_train,y_train)
+model.fit(scaled_X_train, y_train)
 
 model.C_
 
@@ -89,22 +91,16 @@ model.get_params()
 
 model.coef_
 
-coef = pd.Series(index = X.columns,data = model.coef_[0])
-sns.barplot(x = coef.index,y = coef.values)
+coef = pd.Series(index=X.columns, data=model.coef_[0])
+sns.barplot(x=coef.index, y=coef.values)
 
 y_pred = model.predict(scaled_X_test)
 y_pred
 
-"""---------
 
-## Model Performance Evaluation
-"""
+accuracy_score(y_test, y_pred)
 
-from sklearn.metrics import confusion_matrix,accuracy_score,classification_report
-
-accuracy_score(y_test,y_pred)
-
-confusion_matrix(y_test,y_pred)
+confusion_matrix(y_test, y_pred)
 
 """**Final Task: A patient with the following features has come into the medical office:**
 
@@ -125,7 +121,8 @@ confusion_matrix(y_test,y_pred)
 **TASK: What does your model predict for this patient? Do they have heart disease? How "sure" is your model of this prediction?**
 """
 
-new_sample = [[48.0, 0.0, 2.0, 130.0, 275.0, 0.0, 1.0, 139.0, 0.0, 0.2, 2.0, 0.0, 2.0]]
+new_sample = [[48.0, 0.0, 2.0, 130.0, 275.0,
+               0.0, 1.0, 139.0, 0.0, 0.2, 2.0, 0.0, 2.0]]
 scaled_new_sample = scaler.transform(new_sample)
 
 y_pred_new = model.predict(scaled_new_sample)
