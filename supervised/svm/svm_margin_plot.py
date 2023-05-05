@@ -1,19 +1,17 @@
-# CODE SOURCE IS DIRECTLY FROM DOCUMENTATION
-# https://scikit-learn.org/stable/auto_examples/svm/plot_separating_hyperplane.html
+
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def plot_svm_boundary(model,X,y):
-    
+def plot_svm_boundary(model, X, y):
+
     X = X.values
     y = y.values
-    
-    # Scatter Plot
-    plt.scatter(X[:, 0], X[:, 1], c=y, s=30,cmap='seismic')
 
-    
+    # Scatter Plot
+    plt.scatter(X[:, 0], X[:, 1], c=y, s=30, cmap='seismic')
+
     # plot the decision function
     ax = plt.gca()
     xlim = ax.get_xlim()
