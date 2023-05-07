@@ -93,7 +93,7 @@ model.inertia_
 
 cluster_labels
 
-# adding cluster column to the X dataset to know which row belongs to which cluster,act as some kind of lebel
+# adding cluster column to the X dataset to know which row belongs to which cluster
 X['Clusters'] = cluster_labels
 X
 
