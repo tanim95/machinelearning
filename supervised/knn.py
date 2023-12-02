@@ -4,14 +4,11 @@
 # KNN is particularly useful when the dataset is small and the number of features is not too large
 
 
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.metrics import classification_report
-from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.pipeline import Pipeline
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn import neighbors
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 import numpy as np
 import pandas as pd
 import seaborn as sns

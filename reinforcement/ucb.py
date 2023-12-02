@@ -7,6 +7,7 @@ import math
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 # importing data
 df = pd.read_csv('./data/Ads_CTR_Optimisation.csv')
 print(df.head())
@@ -37,8 +38,10 @@ for i in range(0, N):
             reward = df.values[i, ad]
             sum_of_rewards[ad] += reward
             total_reward += reward
-
-plt.hist(add_selected)
-plt.xlim(0, 10)
+ads_df = pd.DataFrame({'Ad_Selected': add_selected})
+plt.figure(figsize=(8, 6), dpi=150)
+sns.countplot(data=ads_df, x='Ad_Selected', palette='viridis')
+plt.title('Number of Times Each Ad was Selected')
+plt.xlabel('Ad')
+plt.ylabel('Frequency')
 plt.show()
- 

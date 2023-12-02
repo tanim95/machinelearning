@@ -82,7 +82,9 @@ plot_svm_boundary(svm_model, X_train, y_train)
 
 svm = SVC()
 param = {'C': [1, 0.1, 10], 'kernel': [
-    'linear', 'rbf', 'poly'], 'degree': [2, 3, 4, 5]}
+    'rbf', 'poly'], 'degree': [2, 3, 4, 5], 'gamma': ['auto', 'scale', 0.1, 0.01],
+    'class_weight': [None, 'balanced'],
+    'probability': [False, True]}
 
 grid = GridSearchCV(svm, param_grid=param)
 
