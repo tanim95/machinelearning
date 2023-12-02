@@ -14,13 +14,14 @@ print(df.head())
 # implementing upper confidence bound(UCB) algorithm
 
 
-N = 10000  # Number of rounds
+N = 500  # Number of rounds
 d = 10  # Number of ads
 
 add_selected = []  # List to store selected ads
 number_of_selections = np.zeros(d)  # Num of selections for each ad
 sum_of_rewards = np.zeros(d)  # Sum of rewards for each ad
 total_reward = 0  # Total reward obtained
+C = 1  # exploration constant
 
 for n in range(1, N + 1):
     ad = 0
@@ -29,8 +30,8 @@ for n in range(1, N + 1):
     for i in range(0, d):
         if number_of_selections[i] > 0:
             average_reward = sum_of_rewards[i] / number_of_selections[i]
-            confidence_interval = math.sqrt(
-                2 * math.log(n) / number_of_selections[i])
+            confidence_interval = C * math.sqrt(
+                math.log(n) / number_of_selections[i])
             upper_bound = average_reward + confidence_interval
         else:
             upper_bound = 1e400  # Large upper bound for unexplored arms
