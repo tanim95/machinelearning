@@ -54,19 +54,19 @@ r2_score(y_eval, y_pred)
 
 score = cross_val_score(ridge_model_2, X_train, y_train,
                         cv=5, scoring='neg_mean_squared_error')
-score
+print(score)
 
 abs(score.mean())
 
 score = cross_validate(ridge_model_2, X_train, y_train, cv=5, scoring=(
     'r2', 'neg_mean_squared_error'), return_train_score=True)
 
-score
+print(score)
 
 scores = pd.DataFrame(score)
-scores
+print(scores)
 
-scores.mean()
+print(scores.mean())
 
 y_final_pred = ridge_model_2.predict(X_test)
 r2_score(y_eval, y_pred)
