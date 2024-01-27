@@ -8,10 +8,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-# importing data
+
 df = pd.read_csv('./data/Ads_CTR_Optimisation.csv')
 print(df.head())
-# implementing upper confidence bound(UCB) algorithm
+
+# upper confidence bound(UCB) algorithm
 
 
 N = 500  # Number of rounds
