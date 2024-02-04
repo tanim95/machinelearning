@@ -2,7 +2,7 @@
 
 
 # KNN is particularly useful when the dataset is small and the number of features is not too large
-
+# before applying knn ,dataset needs to standard scale so distance matrics work
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.pipeline import Pipeline
@@ -41,6 +41,8 @@ accuracy_score(y_test, y_pred)
 
 confusion_matrix(y_test, y_pred)
 
+"""#Incresing accuracy usuing elbow method to choose the best k value"""
+
 test_error = []
 for k in range(1, 30):
     knn_model_2 = KNeighborsClassifier(n_neighbors=k)
@@ -49,8 +51,6 @@ for k in range(1, 30):
     error_score = 1 - accuracy_score(y_test, y_pred_2)
     test_error.append(error_score)
 test_error
-
-"""#Incresing accuracy usuing elbow method to choose the best k value"""
 
 plt.plot(range(1, 30), test_error)
 plt.xlabel('K=VALUE')
