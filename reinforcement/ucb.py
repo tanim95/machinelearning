@@ -3,6 +3,33 @@
 # figure it so fast as showing ads is costly!
 # Note: each add has a certain conversion rate or fixed distribution like mult-arm bandit problem slot machine
 
+
+# .......................................ucb example ..............
+"""
+Let's say you want to estimate the probability of 
+getting heads when flipping a biased coin. 
+You flip the coin 100 times and observe 70 heads.
+
+-Sample Proportion (p-hat) = Number of heads / Total number of flips
+= 70 / 100
+= 0.7
+- Margin of Error = Z * Standard Error (Z represents the critical value from the standard normal distribution)
+
+Standard Error = sqrt((p-hat * (1 - p-hat)) / n), where n is the sample size.
+= sqrt((0.7 * 0.3) / 100)
+= sqrt(0.21 / 100)
+≈ 0.046
+
+Margin of Error = 1.96 * 0.046
+≈ 0.09016
+
+Confidence Interval = p-hat ± Margin of Error
+= 0.7 ± 0.09016
+≈ (0.61, 0.79)
+
+"""
+
+
 import math
 import pandas as pd
 import numpy as np
@@ -11,9 +38,6 @@ import seaborn as sns
 
 df = pd.read_csv('./data/Ads_CTR_Optimisation.csv')
 print(df.head())
-
-# upper confidence bound(UCB) algorithm
-
 
 N = 500  # Number of rounds
 d = 10  # Number of ads
