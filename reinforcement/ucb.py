@@ -1,6 +1,8 @@
 # the dataset used here represents 10 ads showing to online user and 0,1
 # means wheather user clicked it or not and based on this result we need to decide which ads to show to a certain user and we need to
 # figure it so fast as showing ads is costly!
+
+
 # Note: each add has a certain conversion rate or fixed distribution like mult-arm bandit problem slot machine
 
 
@@ -19,7 +21,7 @@ Standard Error = sqrt((p-hat * (1 - p-hat)) / n), where n is the sample size.
 = sqrt((0.7 * 0.3) / 100)
 = sqrt(0.21 / 100)
 ≈ 0.046
-
+For 95% confidence interval,Z = 1.96
 Margin of Error = 1.96 * 0.046
 ≈ 0.09016
 
@@ -46,7 +48,8 @@ add_selected = []  # List to store selected ads
 number_of_selections = np.zeros(d)  # Num of selections for each ad
 sum_of_rewards = np.zeros(d)  # Sum of rewards for each ad
 total_reward = 0  # Total reward obtained
-C = 1  # exploration constant
+# exploration constant C (the higher the constant more it will explore rather than exploit)
+C = 1
 
 for n in range(1, N + 1):
     ad = 0
@@ -64,7 +67,6 @@ for n in range(1, N + 1):
         if upper_bound > max_upper_bound:
             max_upper_bound = upper_bound
             ad = i  # Updating the selected ad based on the highest UCB value
-
     add_selected.append(ad)  # Record the selected ad
     number_of_selections[ad] += 1  # Increment the count for the selected ad
     reward = df.values[n - 1, ad]
