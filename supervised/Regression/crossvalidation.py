@@ -15,7 +15,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv('/content/Advertising.csv')
+df = pd.read_csv('data\Advertising.csv')
 df.head()
 
 X = df.drop('sales', axis=1)
